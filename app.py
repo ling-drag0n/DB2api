@@ -5,6 +5,7 @@ import hashlib
 import json
 import httpx
 import logging
+import os
 from typing import AsyncGenerator, List, Dict, Union
 from pydantic import BaseModel, Field
 from fastapi import FastAPI, HTTPException, Header
@@ -57,14 +58,14 @@ class Config(BaseModel):
         default=10,
         description="Number of conversations before generating new device ID"
     )
-    
-    class Config:
-        env_file = ".env"        # 读取根目录下的.env文件
-        env_file_encoding = 'utf-8'
-        case_sensitive = False   # 允许环境变量名大小写不敏感
 
 # 创建全局配置实例
-config = Config()
+config = Config(
+    API_KEY=os.environ.get("API_KEY", "sk_gUXNcLwm0rnnEt55Mg8hq88"),
+    MAX_HISTORY=int(os.environ.get("MAX_HISTORY", "30")),
+    API_DOMAIN=os.environ.get("API_DOMAIN", "https://ai-api.dangbei.net"),
+    DEVICE_CONVERSATIONS_LIMIT=int(os.environ.get("DEVICE_CONVERSATIONS_LIMIT", "10"))
+)
 
 # 辅助函数：验证 API 密钥
 async def verify_api_key(authorization: str = Header(None)):
