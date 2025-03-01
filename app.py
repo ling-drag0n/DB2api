@@ -24,8 +24,7 @@ app = FastAPI()
 class Config(BaseModel):
     # API 密钥
     API_KEY: str = Field(
-        default="",
-        env="API_KEY", 
+        default="sk_gUXNcLwm0rnnEt55Mg8hq88",
         description="API key for authentication"
     )
     
