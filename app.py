@@ -23,7 +23,8 @@ app = FastAPI()
 class Config(BaseModel):
     # API 密钥
     API_KEY: str = Field(
-        default="sk_gUXNcLwm0rnnEt55Mg8hq88",
+        default="",
+        env="API_KEY", 
         description="API key for authentication"
     )
     
@@ -56,6 +57,11 @@ class Config(BaseModel):
         default=10,
         description="Number of conversations before generating new device ID"
     )
+    
+    class Config:
+        env_file = ".env"        # 读取根目录下的.env文件
+        env_file_encoding = 'utf-8'
+        case_sensitive = False   # 允许环境变量名大小写不敏感
 
 # 创建全局配置实例
 config = Config()
